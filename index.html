@@ -15,14 +15,14 @@
       color: #FFFFFF;
     }
     .accent {
-      color: #e4322a;
+      color: #ee4e28;
     }
     .btn-accent {
-      background-color: #e4322a;
+      background-color: #ee4e28;
       color: #FFFFFF;
     }
     .btn-accent:hover {
-      background-color: #c12b22;
+      background-color: #f08267;
     }
     /* Custom Scrollbar for WebKit */
     ::-webkit-scrollbar {
@@ -41,54 +41,23 @@
     }
     /* Responsive adjustments for buttons */
     @media (max-width: 400px) {
-      .drive-controls, .parity-controls {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .drive-controls > div, .drive-controls > button,
-      .parity-controls > div, .parity-controls > button {
-        margin-bottom: 8px;
-      }
       .drive-buttons, .parity-buttons {
         flex-wrap: wrap;
       }
       .drive-buttons > button, .parity-buttons > button {
         margin-bottom: 8px;
       }
+      .drive-controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .drive-controls > div, .drive-controls > button {
+        margin-bottom: 8px;
+      }
     }
     /* Additional spacing */
     .section-spacing {
       margin-bottom: 2rem;
-    }
-    /* Tooltip styling */
-    .tooltip {
-      position: relative;
-      cursor: help;
-    }
-    .tooltip:hover::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #2d2d2d;
-      color: #fff;
-      padding: 5px;
-      border-radius: 4px;
-      white-space: nowrap;
-      font-size: 0.875rem;
-      margin-bottom: 5px;
-      opacity: 1;
-    }
-    .tooltip::after {
-      opacity: 0;
-      transition: opacity 0.2s ease-in-out;
-      pointer-events: none;
-    }
-    /* Focus styles for accessibility */
-    .focus\:ring-red-500:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(228, 50, 42, 0.5);
     }
   </style>
 </head>
@@ -100,7 +69,7 @@
         <img src="unraid-logo.png" alt="Unraid Logo" class="h-8 mr-3">
         <h1 class="text-2xl font-bold">Drive Calculator</h1>
       </div>
-      <a href="https://github.com/graphixa/UnraidCalculator" class="text-white hover:text-red-500">
+      <a href="https://github.com/graphixa/UnraidCalculator" class="text-white hover:text-yellow-500">
         Made with ❤️ by @graphixa
       </a>
     </div>
@@ -109,37 +78,36 @@
   <!-- Main Content -->
   <main class="container mx-auto my-8 px-4">
     <!-- Data Drives Section -->
-    <section class="section-spacing">
+    <section>
       <h2 class="text-xl font-semibold mb-4">Number of Data Drives</h2>
-      <div class="drive-controls flex flex-wrap items-center space-x-2 mb-6">
-        <!-- Drive buttons will be generated here -->
-        <div id="driveButtons" class="drive-buttons flex flex-wrap space-x-2">
-          <!-- Buttons will be inserted here -->
-        </div>
-        <!-- Custom Number Button and Input -->
-        <div class="flex items-center space-x-2 mt-2">
-          <button id="customButton" class="btn-drive custom-number px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:ring-red-500 tooltip" data-tooltip="Enter a custom number of data drives">
-            Custom No.
-          </button>
-          <div id="customDriveInput" style="display: none;">
-            <input
-              type="number"
-              id="numDrives"
-              min="11"
-              max="100"
-              value="11"
-              class="border border-gray-600 bg-gray-800 text-white px-3 py-2 rounded w-32 focus:ring-red-500"
-              placeholder="Max 100"
-              aria-label="Enter custom number of data drives"
-            />
+      <div class="mb-6">
+        <div class="drive-controls flex flex-wrap items-center space-x-2 mb-4">
+          <!-- Drive buttons will be generated here -->
+          <div id="driveButtons" class="drive-buttons flex flex-wrap space-x-2">
+            <!-- Buttons will be inserted here -->
+          </div>
+          <!-- Custom Number Button and Input -->
+          <div class="flex items-center space-x-2 mt-2">
+            <button id="customButton" class="btn-drive custom-number px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+              Custom No.
+            </button>
+            <div id="customDriveInput" style="display: none;">
+              <input
+                type="number"
+                id="numDrives"
+                min="11"
+                max="100"
+                value="11"
+                class="border border-gray-600 bg-gray-800 text-white px-3 py-2 rounded w-32"
+                placeholder="Max 100"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <!-- Update All Drive Sizes Button -->
-      <div class="mt-6">
-        <button id="updateAllDrivesBtn" class="btn-accent px-4 py-2 rounded focus:ring-red-500 tooltip" data-tooltip="Set all drive sizes at once">
-          Update All Drive Sizes
-        </button>
+        <!-- Update All Drive Sizes Button -->
+        <div class="mt-6">
+          <button id="updateAllDrivesBtn" class="btn-accent px-4 py-2 rounded">Update All Drive Sizes</button>
+        </div>
       </div>
 
       <!-- Drive Sizes Inputs -->
@@ -151,7 +119,7 @@
     <!-- Parity Drives Section -->
     <section class="section-spacing">
       <h2 class="text-xl font-semibold mb-4">Number of Parity Drives</h2>
-      <div class="parity-controls flex flex-wrap items-center space-x-2 mb-6">
+      <div class="flex flex-wrap space-x-2 mb-6">
         <!-- Parity buttons will be generated here -->
         <div id="parityButtons" class="parity-buttons flex flex-wrap space-x-2">
           <!-- Buttons will be inserted here -->
@@ -164,7 +132,7 @@
     </section>
 
     <!-- Results -->
-    <section class="section-spacing">
+    <section>
       <h2 class="text-xl font-semibold mb-4">Usable Storage</h2>
       <div id="results" class="text-lg font-semibold">
         <!-- Results will be displayed here -->
@@ -175,7 +143,7 @@
   <!-- Feedback Form -->
   <footer class="bg-gray-900 py-6">
     <div class="container mx-auto px-4 text-center">
-      <p>If you have any feedback or encounter issues, please visit our <a href="https://github.com/graphixa/UnraidCalculator/issues" class="text-red-500 hover:text-red-400">GitHub Issues Page</a>.</p>
+      <p>If you have any feedback or encounter issues, please visit our <a href="https://github.com/graphixa/UnraidCalculator/issues" class="text-yellow-500 hover:text-yellow-400">GitHub Issues Page</a>.</p>
     </div>
   </footer>
 
@@ -184,9 +152,9 @@
     <div class="bg-gray-800 p-6 rounded-lg">
       <h5 class="text-xl font-semibold mb-4">Update All Drive Sizes</h5>
       <label for="newDriveSize" class="block mb-2">Enter new size for all drives:</label>
-      <input type="number" id="newDriveSize" class="w-full mb-4 px-3 py-2 bg-gray-700 border border-gray-600 rounded" placeholder="Drive Size" aria-label="Enter new size for all drives">
+      <input type="number" id="newDriveSize" class="w-full mb-4 px-3 py-2 bg-gray-700 border border-gray-600 rounded" placeholder="Drive Size">
       <label for="newDriveUnit" class="block mb-2">Select unit:</label>
-      <select id="newDriveUnit" class="w-full mb-4 px-3 py-2 bg-gray-700 border border-gray-600 rounded" aria-label="Select unit">
+      <select id="newDriveUnit" class="w-full mb-4 px-3 py-2 bg-gray-700 border border-gray-600 rounded">
         <option value="TB">TB</option>
         <option value="GB">GB</option>
       </select>
@@ -195,6 +163,11 @@
         <button id="closeModalBtn" class="px-4 py-2 rounded border border-gray-600">Cancel</button>
       </div>
     </div>
+  </div>
+
+  <!-- Tooltip Template -->
+  <div id="tooltip" class="hidden absolute bg-gray-700 text-white text-sm rounded py-1 px-2">
+    <!-- Tooltip text will be inserted here -->
   </div>
 
   <!-- Custom Script -->
