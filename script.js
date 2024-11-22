@@ -18,6 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
   let numDrives = 1; // Default number of data drives
   let numParityDrives = 0; // Default number of parity drives
 
+  // Arrays to store drive values
+  let driveValues = [];
+  let parityValues = [];
+
   // Generate Data Drive Buttons
   for (let i = 1; i <= 10; i++) {
     const button = document.createElement('button');
@@ -31,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Create the [ Custom No. ] button
   const customButton = document.createElement('button');
-  customButton.className = 'btn btn-drive';
+  customButton.className = 'btn btn-drive custom-number';
   customButton.dataset.value = 'custom';
   customButton.textContent = 'Custom No.';
   driveButtonsDiv.appendChild(customButton);
@@ -75,24 +79,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to update drive inputs
   function updateDriveInputs() {
+    // Store existing values
+    const existingInputs = document.querySelectorAll('.drive-size');
+    driveValues = [];
+    existingInputs.forEach((input, index) => {
+      const size = input.value;
+      const unit = document.querySelectorAll('.drive-unit-select')[index].value;
+      driveValues.push({ size, unit });
+    });
+
     driveSizesDiv.innerHTML = '';
     for (let i = 1; i <= numDrives; i++) {
       const formGroup = document.createElement('div');
-      formGroup.className = 'form-row align-items-center mb-2 drive-input-group';
+      formGroup.className = 'drive-input-group';
 
       const labelDiv = document.createElement('div');
       labelDiv.className = 'drive-label';
-      labelDiv.textContent = `Drive ${i}`;
+      labelDiv.textContent = `Drive ${i}:`;
 
       const sizeDiv = document.createElement('div');
       sizeDiv.className = 'drive-input';
       const sizeInput = document.createElement('input');
       sizeInput.type = 'number';
       sizeInput.min = '0';
-      sizeInput.value = '4';
       sizeInput.className = 'form-control drive-size';
       sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
+
+      // Set existing value if available
+      if (driveValues[i - 1]) {
+        sizeInput.value = driveValues[i - 1].size;
+      } else {
+        sizeInput.value = '4';
+      }
+
       sizeDiv.appendChild(sizeInput);
 
       const unitDiv = document.createElement('div');
@@ -108,6 +128,12 @@ document.addEventListener('DOMContentLoaded', function () {
       unitSelect.appendChild(tbOption);
       unitSelect.appendChild(gbOption);
       unitSelect.addEventListener('change', calculateTotalStorage);
+
+      // Set existing unit if available
+      if (driveValues[i - 1]) {
+        unitSelect.value = driveValues[i - 1].unit;
+      }
+
       unitDiv.appendChild(unitSelect);
 
       formGroup.appendChild(labelDiv);
@@ -142,24 +168,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to update parity drive inputs
   function updateParityDrives() {
+    // Store existing values
+    const existingInputs = document.querySelectorAll('.parity-size');
+    parityValues = [];
+    existingInputs.forEach((input, index) => {
+      const size = input.value;
+      const unit = document.querySelectorAll('.parity-unit-select')[index].value;
+      parityValues.push({ size, unit });
+    });
+
     parityDrivesDiv.innerHTML = '';
     for (let i = 1; i <= numParityDrives; i++) {
       const formGroup = document.createElement('div');
-      formGroup.className = 'form-row align-items-center mb-2 drive-input-group';
+      formGroup.className = 'drive-input-group';
 
       const labelDiv = document.createElement('div');
       labelDiv.className = 'drive-label';
-      labelDiv.textContent = `Parity ${i}`;
+      labelDiv.textContent = `Parity ${i}:`;
 
       const sizeDiv = document.createElement('div');
       sizeDiv.className = 'drive-input';
       const sizeInput = document.createElement('input');
       sizeInput.type = 'number';
       sizeInput.min = '0';
-      sizeInput.value = '4';
       sizeInput.className = 'form-control parity-size';
       sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
+
+      // Set existing value if available
+      if (parityValues[i - 1]) {
+        sizeInput.value = parityValues[i - 1].size;
+      } else {
+        sizeInput.value = '4';
+      }
+
       sizeDiv.appendChild(sizeInput);
 
       const unitDiv = document.createElement('div');
@@ -175,6 +217,12 @@ document.addEventListener('DOMContentLoaded', function () {
       unitSelect.appendChild(tbOption);
       unitSelect.appendChild(gbOption);
       unitSelect.addEventListener('change', calculateTotalStorage);
+
+      // Set existing unit if available
+      if (parityValues[i - 1]) {
+        unitSelect.value = parityValues[i - 1].unit;
+      }
+
       unitDiv.appendChild(unitSelect);
 
       formGroup.appendChild(labelDiv);
