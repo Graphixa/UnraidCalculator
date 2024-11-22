@@ -9,12 +9,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const parityButtonsDiv = document.getElementById('parityButtons');
   const parityDrivesDiv = document.getElementById('parityDrives');
   const resultsDiv = document.getElementById('results');
+  const updateAllDrivesBtn = document.getElementById('updateAllDrivesBtn');
+  const updateAllDrivesModal = $('#updateAllDrivesModal');
+  const applyNewSizeBtn = document.getElementById('applyNewSizeBtn');
+  const newDriveSizeInput = document.getElementById('newDriveSize');
+  const newDriveUnitSelect = document.getElementById('newDriveUnit');
 
   let numDrives = 1; // Default number of data drives
   let numParityDrives = 0; // Default number of parity drives
 
   // Generate Data Drive Buttons
-  for (let i = 1; i <= 12; i++) {
+  for (let i = 1; i <= 10; i++) {
     const button = document.createElement('button');
     button.className = 'btn btn-drive';
     button.dataset.value = i;
@@ -40,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (selectedValue === 'custom') {
         customDriveInputDiv.style.display = 'block';
-        numDrives = parseInt(numDrivesInput.value) || 13;
+        numDrives = parseInt(numDrivesInput.value) || 11;
         numDrivesInput.focus();
       } else {
         customDriveInputDiv.style.display = 'none';
@@ -53,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Handle Custom Number of Drives Input
   numDrivesInput.addEventListener('input', function () {
     const value = parseInt(this.value);
-    if (value >= 13) {
+    if (value >= 11) {
       numDrives = value;
       updateDriveInputs();
     }
@@ -61,9 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   numDrivesInput.addEventListener('blur', function () {
     const value = parseInt(this.value);
-    if (isNaN(value) || value < 13) {
-      this.value = 13;
-      numDrives = 13;
+    if (isNaN(value) || value < 11) {
+      this.value = 11;
+      numDrives = 11;
       updateDriveInputs();
     }
   });
@@ -73,23 +78,27 @@ document.addEventListener('DOMContentLoaded', function () {
     driveSizesDiv.innerHTML = '';
     for (let i = 1; i <= numDrives; i++) {
       const formGroup = document.createElement('div');
-      formGroup.className = 'form-row align-items-center mb-2';
+      formGroup.className = 'form-row align-items-center mb-2 drive-input-group';
+
+      const labelDiv = document.createElement('div');
+      labelDiv.className = 'drive-label';
+      labelDiv.textContent = `Drive ${i}`;
 
       const sizeDiv = document.createElement('div');
-      sizeDiv.className = 'col';
+      sizeDiv.className = 'drive-input';
       const sizeInput = document.createElement('input');
       sizeInput.type = 'number';
       sizeInput.min = '0';
       sizeInput.value = '4';
       sizeInput.className = 'form-control drive-size';
-      sizeInput.placeholder = `Drive ${i} Size`;
+      sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
       sizeDiv.appendChild(sizeInput);
 
       const unitDiv = document.createElement('div');
-      unitDiv.className = 'col-auto';
+      unitDiv.className = 'drive-unit';
       const unitSelect = document.createElement('select');
-      unitSelect.className = 'form-control drive-unit';
+      unitSelect.className = 'form-control drive-unit-select';
       const tbOption = document.createElement('option');
       tbOption.value = 'TB';
       tbOption.textContent = 'TB';
@@ -101,12 +110,24 @@ document.addEventListener('DOMContentLoaded', function () {
       unitSelect.addEventListener('change', calculateTotalStorage);
       unitDiv.appendChild(unitSelect);
 
+      formGroup.appendChild(labelDiv);
       formGroup.appendChild(sizeDiv);
       formGroup.appendChild(unitDiv);
 
       driveSizesDiv.appendChild(formGroup);
     }
     calculateTotalStorage();
+  }
+
+  // Generate Parity Drive Buttons
+  for (let i = 0; i <= 2; i++) {
+    const button = document.createElement('button');
+    button.className = 'btn btn-parity';
+    button.dataset.value = i;
+    button.textContent = i;
+    if (i === 0) button.classList.add('active');
+
+    parityButtonsDiv.appendChild(button);
   }
 
   // Handle Parity Drive Selection
@@ -124,23 +145,27 @@ document.addEventListener('DOMContentLoaded', function () {
     parityDrivesDiv.innerHTML = '';
     for (let i = 1; i <= numParityDrives; i++) {
       const formGroup = document.createElement('div');
-      formGroup.className = 'form-row align-items-center mb-2';
+      formGroup.className = 'form-row align-items-center mb-2 drive-input-group';
+
+      const labelDiv = document.createElement('div');
+      labelDiv.className = 'drive-label';
+      labelDiv.textContent = `Parity ${i}`;
 
       const sizeDiv = document.createElement('div');
-      sizeDiv.className = 'col';
+      sizeDiv.className = 'drive-input';
       const sizeInput = document.createElement('input');
       sizeInput.type = 'number';
       sizeInput.min = '0';
       sizeInput.value = '4';
       sizeInput.className = 'form-control parity-size';
-      sizeInput.placeholder = `Parity Drive ${i} Size`;
+      sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
       sizeDiv.appendChild(sizeInput);
 
       const unitDiv = document.createElement('div');
-      unitDiv.className = 'col-auto';
+      unitDiv.className = 'drive-unit';
       const unitSelect = document.createElement('select');
-      unitSelect.className = 'form-control parity-unit';
+      unitSelect.className = 'form-control parity-unit-select';
       const tbOption = document.createElement('option');
       tbOption.value = 'TB';
       tbOption.textContent = 'TB';
@@ -152,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
       unitSelect.addEventListener('change', calculateTotalStorage);
       unitDiv.appendChild(unitSelect);
 
+      formGroup.appendChild(labelDiv);
       formGroup.appendChild(sizeDiv);
       formGroup.appendChild(unitDiv);
 
@@ -163,9 +189,9 @@ document.addEventListener('DOMContentLoaded', function () {
   // Function to calculate total storage
   function calculateTotalStorage() {
     const driveSizes = document.querySelectorAll('.drive-size');
-    const driveUnits = document.querySelectorAll('.drive-unit');
+    const driveUnits = document.querySelectorAll('.drive-unit-select');
     const paritySizes = document.querySelectorAll('.parity-size');
-    const parityUnits = document.querySelectorAll('.parity-unit');
+    const parityUnits = document.querySelectorAll('.parity-unit-select');
 
     let totalStorage = 0;
     let largestDriveSize = 0;
@@ -206,4 +232,38 @@ document.addEventListener('DOMContentLoaded', function () {
   // Initialize inputs
   updateDriveInputs();
   updateParityDrives();
+
+  // Update All Drive Sizes functionality
+  updateAllDrivesBtn.addEventListener('click', function () {
+    // Show modal
+    updateAllDrivesModal.modal('show');
+  });
+
+  applyNewSizeBtn.addEventListener('click', function () {
+    const newSize = parseFloat(newDriveSizeInput.value);
+    const newUnit = newDriveUnitSelect.value;
+
+    if (!isNaN(newSize) && newSize > 0) {
+      // Update all drive sizes
+      document.querySelectorAll('.drive-size').forEach((input) => {
+        input.value = newSize;
+      });
+      document.querySelectorAll('.drive-unit-select').forEach((select) => {
+        select.value = newUnit;
+      });
+
+      // Update parity drive sizes
+      document.querySelectorAll('.parity-size').forEach((input) => {
+        input.value = newSize;
+      });
+      document.querySelectorAll('.parity-unit-select').forEach((select) => {
+        select.value = newUnit;
+      });
+
+      calculateTotalStorage();
+      updateAllDrivesModal.modal('hide');
+    } else {
+      alert('Please enter a valid drive size.');
+    }
+  });
 });
