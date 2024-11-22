@@ -37,57 +37,82 @@
   </style>
 </head>
 <body>
-  <div class="container mx-auto my-8 px-4">
-    <h1 class="text-center text-3xl font-bold mb-8">UNRAID Calculator</h1>
-
-    <!-- Data Drives Section -->
-    <h3 class="text-xl font-semibold mb-4">Number of Data Drives</h3>
-    <div class="flex flex-wrap items-center justify-between mb-6">
-      <div class="flex flex-wrap space-x-2 mb-4">
-        <!-- Drive buttons will be generated here -->
-        <div id="driveButtons" class="flex flex-wrap space-x-2">
-          <!-- Buttons will be inserted here -->
-        </div>
-        <!-- Custom Number Input -->
-        <div id="customDriveInput" class="mt-2" style="display: none;">
-          <input
-            type="number"
-            id="numDrives"
-            min="11"
-            value="11"
-            class="border border-gray-600 bg-gray-800 text-white px-3 py-2 rounded"
-            placeholder="Enter number of drives"
-          />
-        </div>
+  <!-- Header -->
+  <header class="sticky top-0 bg-gray-900 py-4 shadow-md">
+    <div class="container mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center">
+        <img src="unraid-logo.png" alt="Unraid Logo" class="h-8 mr-3">
+        <h1 class="text-2xl font-bold">UNRAID Calculator</h1>
       </div>
-      <!-- Update All Drive Sizes Button -->
-      <button id="updateAllDrivesBtn" class="btn-accent px-4 py-2 rounded">Update All Drive Sizes</button>
+      <a href="https://github.com/graphixa/UnraidCalculator" class="text-white hover:text-red-500">
+        Made with ❤️ by @graphixa
+      </a>
     </div>
+  </header>
 
-    <!-- Drive Sizes Inputs -->
-    <div id="driveSizes" class="mb-8">
-      <!-- Drive size inputs will be appended here -->
-    </div>
+  <!-- Main Content -->
+  <main class="container mx-auto my-8 px-4">
+    <!-- Data Drives Section -->
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Number of Data Drives</h2>
+      <div class="flex flex-wrap items-center justify-between mb-6">
+        <div class="flex flex-wrap space-x-2 mb-4">
+          <!-- Drive buttons will be generated here -->
+          <div id="driveButtons" class="flex flex-wrap space-x-2">
+            <!-- Buttons will be inserted here -->
+          </div>
+          <!-- Custom Number Input -->
+          <div id="customDriveInput" class="mt-2" style="display: none;">
+            <input
+              type="number"
+              id="numDrives"
+              min="11"
+              value="11"
+              class="border border-gray-600 bg-gray-800 text-white px-3 py-2 rounded"
+              placeholder="Enter number of drives"
+            />
+          </div>
+        </div>
+        <!-- Update All Drive Sizes Button -->
+        <button id="updateAllDrivesBtn" class="btn-accent px-4 py-2 rounded">Update All Drive Sizes</button>
+      </div>
+
+      <!-- Drive Sizes Inputs -->
+      <div id="driveSizes" class="mb-8">
+        <!-- Drive size inputs will be appended here -->
+      </div>
+    </section>
 
     <!-- Parity Drives Section -->
-    <h3 class="text-xl font-semibold mb-4">Number of Parity Drives</h3>
-    <div class="flex flex-wrap space-x-2 mb-6">
-      <!-- Parity buttons will be generated here -->
-      <div id="parityButtons" class="flex flex-wrap space-x-2">
-        <!-- Buttons will be inserted here -->
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Number of Parity Drives</h2>
+      <div class="flex flex-wrap space-x-2 mb-6">
+        <!-- Parity buttons will be generated here -->
+        <div id="parityButtons" class="flex flex-wrap space-x-2">
+          <!-- Buttons will be inserted here -->
+        </div>
       </div>
-    </div>
-    <!-- Parity Drives Inputs -->
-    <div id="parityDrives" class="mb-8">
-      <!-- Parity drive inputs will be appended here -->
-    </div>
+      <!-- Parity Drives Inputs -->
+      <div id="parityDrives" class="mb-8">
+        <!-- Parity drive inputs will be appended here -->
+      </div>
+    </section>
 
     <!-- Results -->
-    <h3 class="text-xl font-semibold mb-4">Usable Storage</h3>
-    <div id="results" class="text-lg font-semibold">
-      <!-- Results will be displayed here -->
+    <section>
+      <h2 class="text-xl font-semibold mb-4">Usable Storage</h2>
+      <div id="results" class="text-lg font-semibold">
+        <!-- Results will be displayed here -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Feedback Form -->
+  <footer class="bg-gray-900 py-6">
+    <div class="container mx-auto px-4 text-center">
+      <p>If you have any feedback or encounter issues, please visit our <a href="https://github.com/graphixa/UnraidCalculator/issues" class="text-red-500 hover:text-red-400">GitHub Issues Page</a>.</p>
     </div>
-  </div>
+  </footer>
 
   <!-- Update All Drives Modal -->
   <div id="updateAllDrivesModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
@@ -105,6 +130,11 @@
         <button id="closeModalBtn" class="px-4 py-2 rounded border border-gray-600">Cancel</button>
       </div>
     </div>
+  </div>
+
+  <!-- Tooltip Template -->
+  <div id="tooltip" class="hidden absolute bg-gray-700 text-white text-sm rounded py-1 px-2">
+    <!-- Tooltip text will be inserted here -->
   </div>
 
   <!-- Custom Script -->
