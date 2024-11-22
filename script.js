@@ -47,9 +47,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   driveButtonsDiv.appendChild(customLabel);
 
-  // Handle Data Drive Selection
-  driveButtonsDiv.addEventListener('change', function (event) {
-    const selectedValue = event.target.dataset.value;
+  // Function to handle Data Drive Selection
+  function handleDriveSelection(event) {
+    const selectedInput = event.target.querySelector('input[type="radio"]');
+    if (!selectedInput) return;
+    const selectedValue = selectedInput.dataset.value;
     if (selectedValue === 'custom') {
       customDriveInputDiv.style.display = 'block';
       numDrives = parseInt(numDrivesInput.value) || 13;
@@ -59,6 +61,12 @@ document.addEventListener('DOMContentLoaded', function () {
       numDrives = parseInt(selectedValue);
     }
     updateDriveInputs();
+  }
+
+  // Attach click event listeners to drive buttons
+  const driveButtonLabels = driveButtonsDiv.querySelectorAll('label.btn');
+  driveButtonLabels.forEach((label) => {
+    label.addEventListener('click', handleDriveSelection);
   });
 
   // Handle Custom Number of Drives Input
@@ -171,3 +179,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to calculate total storage
   function calculateTotalStorage() {
+    const driveSizes = document.querySelectorAll('.drive-size');
+    const driveUnits = document.querySelectorAll('.drive-unit');
+    const paritySizes = document.querySelectorAll('.parity-size');
+    const parityUnits = document.querySelectorAll('.parity-unit');
+
+    let totalStorage = 0;
+    let largestDriveSize = 0;
+    let errorMessages = [];
+
+    driveSizes.forEach((input, index) => {
+      let size = parseFloat(input.value) || 0;
+      const unit = driveUnits[index].value;
+
+      if (unit === 'GB') size = size / 1024; // Convert GB to TB
+
+      totalStorage += size;
+      if (size > largestDriveSize) largestDriveSize = size;
+    });
+
+    paritySizes.forEach((input, index) => {
+      let size = parseFloat(input.value) || 0;
+      const unit = parityUnits[index].value;
+
+      if (unit === 'GB') size = size / 1024; // Convert GB to TB
+
+      // Check parity size against largest drive
+      if (size < largestDriveSize) {
+        errorMessages.push(
+          `Parity Drive ${index + 1} must be at least ${largestDriveSize.toFixed(2)} TB`
+        );
+      }
+    });
+
+    if (errorMessages.length > 0) {
+      resultsDiv.innerHTML = `<div id="error">${errorMessages.join('<br>')}</div>`;
+    } else {
+      const usableStorage = totalStorage - largestDriveSize * numParityDrives;
+      resultsDiv.innerHTML = `<div>Total Usable Storage: ${usableStorage.toFixed(2)} TB</div>`;
+    }
+  }
+
+  // Initialize inputs
+  updateDriveInputs();
+  updateParityDrives();
+});
