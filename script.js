@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Generate Data Drive Buttons
   for (let i = 1; i <= 10; i++) {
     const button = document.createElement('button');
-    button.className = 'btn-drive px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:ring-red-500 focus:outline-none tooltip';
+    button.className = 'btn-drive w-full sm:w-auto px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500';
     button.dataset.value = i;
     button.textContent = i;
     if (i === 1) button.classList.add('active', 'bg-red-600');
@@ -119,13 +119,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const sizeInput = document.createElement('input');
       sizeInput.type = 'number';
       sizeInput.min = '0';
-      sizeInput.className = 'drive-size w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:ring-red-500 focus:outline-none';
+      sizeInput.className = 'drive-size w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500';
       sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
-      sizeInput.setAttribute('aria-label', `Size of Drive ${i}`);
 
       const unitSelect = document.createElement('select');
-      unitSelect.className = 'drive-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:ring-red-500 focus:outline-none';
+      unitSelect.className = 'drive-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500';
       const tbOption = document.createElement('option');
       tbOption.value = 'TB';
       tbOption.textContent = 'TB';
@@ -135,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function () {
       unitSelect.appendChild(tbOption);
       unitSelect.appendChild(gbOption);
       unitSelect.addEventListener('change', calculateTotalStorage);
-      unitSelect.setAttribute('aria-label', `Unit of Drive ${i}`);
 
       // Set existing value if available
       if (driveValues[i - 1]) {
@@ -159,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Generate Parity Drive Buttons
   for (let i = 0; i <= 2; i++) {
     const button = document.createElement('button');
-    button.className = 'btn-parity px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:ring-red-500 focus:outline-none tooltip';
+    button.className = 'btn-parity w-full sm:w-auto px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500';
     button.dataset.value = i;
     button.textContent = i;
     if (i === 0) button.classList.add('active', 'bg-red-600');
@@ -229,13 +227,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const sizeInput = document.createElement('input');
       sizeInput.type = 'number';
       sizeInput.min = '0';
-      sizeInput.className = 'parity-size w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:ring-red-500 focus:outline-none';
+      sizeInput.className = 'parity-size w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500';
       sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
-      sizeInput.setAttribute('aria-label', `Size of Parity Drive ${i}`);
 
       const unitSelect = document.createElement('select');
-      unitSelect.className = 'parity-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:ring-red-500 focus:outline-none';
+      unitSelect.className = 'parity-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500';
       const tbOption = document.createElement('option');
       tbOption.value = 'TB';
       tbOption.textContent = 'TB';
@@ -245,7 +242,6 @@ document.addEventListener('DOMContentLoaded', function () {
       unitSelect.appendChild(tbOption);
       unitSelect.appendChild(gbOption);
       unitSelect.addEventListener('change', calculateTotalStorage);
-      unitSelect.setAttribute('aria-label', `Unit of Parity Drive ${i}`);
 
       // Set existing value if available
       if (parityValues[i - 1]) {
@@ -309,10 +305,10 @@ document.addEventListener('DOMContentLoaded', function () {
       const faultTolerance = numParityDrives;
 
       resultsDiv.innerHTML = `
-        <div class="bg-gray-800 p-4 rounded shadow-md">
-          <p class="mb-2"><strong>Usable Storage:</strong> <span class="text-green-500">${usableStorage} TB</span></p>
-          <p class="mb-2"><strong>Drive Fault Tolerance:</strong> <span class="text-yellow-500">${faultTolerance} drive(s)</span></p>
-          <p><strong>Total Drives (including parity):</strong> <span class="text-blue-500">${totalDrives}</span></p>
+        <div class="bg-gray-800 p-4 rounded">
+          <p class="mb-2">Usable Storage: <span class="text-green-500">${usableStorage} TB</span></p>
+          <p class="mb-2">Drive Fault Tolerance: <span class="text-yellow-500">${faultTolerance} drive(s)</span></p>
+          <p>Total Drives (including parity): <span class="text-blue-500">${totalDrives}</span></p>
         </div>
       `;
     }
@@ -365,7 +361,33 @@ document.addEventListener('DOMContentLoaded', function () {
     updateAllDrivesModal.classList.add('hidden');
   });
 
-  // Accessibility: Close modal with Escape key
+  // Tooltip Functionality
+  document.addEventListener('mouseover', function (e) {
+    if (e.target.dataset.tooltip) {
+      const tooltip = document.getElementById('tooltip');
+      let left = e.pageX;
+      let top = e.pageY + 20;
+
+      // Adjust to avoid going outside viewport boundaries
+      if (left + tooltip.clientWidth > window.innerWidth) {
+        left = window.innerWidth - tooltip.clientWidth - 10;
+      }
+
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top = `${top}px`;
+      tooltip.textContent = e.target.dataset.tooltip;
+      tooltip.classList.remove('hidden');
+    }
+  });
+
+  document.addEventListener('mouseout', function (e) {
+    if (e.target.dataset.tooltip) {
+      const tooltip = document.getElementById('tooltip');
+      tooltip.classList.add('hidden');
+    }
+  });
+
+  // Accessibility: Keyboard Navigation for Modals
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && !updateAllDrivesModal.classList.contains('hidden')) {
       updateAllDrivesModal.classList.add('hidden');
