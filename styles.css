@@ -1,5 +1,8 @@
 /* styles.css */
 
+/* Import Bootstrap Overrides */
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+
 /* Apply the "Inter" font */
 body {
   font-family: 'Inter', sans-serif;
@@ -12,22 +15,31 @@ body {
   color: #eb462a;
 }
 
-/* Bootstrap Overrides */
+/* Headings */
+h1 {
+  color: #eb462a;
+  margin-bottom: 30px;
+}
+
+/* Form Labels */
+label {
+  font-weight: bold;
+}
+
+/* Buttons */
 .btn-secondary {
+  background-color: #2c2c2c;
+  border-color: #444;
+  color: #FFFFFF;
+}
+
+.btn-secondary.active, .btn-secondary:active, .btn-secondary:hover {
   background-color: #eb462a;
   border-color: #eb462a;
   color: #FFFFFF;
 }
 
-.btn-secondary.active,
-.btn-secondary:active,
-.btn-secondary:hover,
-.btn-secondary:focus {
-  background-color: #c63b23;
-  border-color: #c63b23;
-  color: #FFFFFF;
-}
-
+/* Inputs */
 .form-control {
   background-color: #2c2c2c;
   color: #FFFFFF;
@@ -37,17 +49,42 @@ body {
 .form-control:focus {
   background-color: #2c2c2c;
   color: #FFFFFF;
+  border-color: #eb462a;
 }
 
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-  color: #FFFFFF;
+input::placeholder {
+  color: #aaa;
 }
 
+/* Results */
 #results {
   font-size: 1.2rem;
+  margin-top: 20px;
 }
 
 #error {
   color: #dc3545;
+}
+
+/* Spacing */
+.form-group, .form-row {
+  margin-bottom: 20px;
+}
+
+.container {
+  max-width: 800px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+  .form-row {
+    flex-direction: column;
+  }
+  .form-row .col, .form-row .col-auto {
+    width: 100%;
+    max-width: 100%;
+  }
+  .form-row .col-auto {
+    margin-top: 10px;
+  }
 }
