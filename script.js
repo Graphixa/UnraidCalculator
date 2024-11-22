@@ -26,19 +26,23 @@ document.addEventListener('DOMContentLoaded', function () {
   // Generate Data Drive Buttons
   for (let i = 1; i <= 10; i++) {
     const button = document.createElement('button');
-    button.className = 'btn-drive px-3 py-2 bg-gray-800 text-white rounded';
+    button.className = 'btn-drive px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500';
     button.dataset.value = i;
     button.textContent = i;
     if (i === 1) button.classList.add('active', 'bg-red-600');
+
+    // Tooltip
+    button.setAttribute('data-tooltip', `Select ${i} data drives`);
 
     driveButtonsDiv.appendChild(button);
   }
 
   // Create the [ Custom No. ] button
   const customButton = document.createElement('button');
-  customButton.className = 'btn-drive custom-number px-3 py-2 bg-gray-800 text-white rounded';
+  customButton.className = 'btn-drive custom-number px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500';
   customButton.dataset.value = 'custom';
   customButton.textContent = 'Custom No.';
+  customButton.setAttribute('data-tooltip', 'Enter a custom number of data drives');
   driveButtonsDiv.appendChild(customButton);
 
   // Handle Data Drive Selection
@@ -101,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const sizeInput = document.createElement('input');
       sizeInput.type = 'number';
       sizeInput.min = '0';
-      sizeInput.className = 'drive-size w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white';
+      sizeInput.className = 'drive-size w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500';
       sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
 
@@ -113,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       const unitSelect = document.createElement('select');
-      unitSelect.className = 'drive-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white';
+      unitSelect.className = 'drive-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500';
       const tbOption = document.createElement('option');
       tbOption.value = 'TB';
       tbOption.textContent = 'TB';
@@ -141,10 +145,13 @@ document.addEventListener('DOMContentLoaded', function () {
   // Generate Parity Drive Buttons
   for (let i = 0; i <= 2; i++) {
     const button = document.createElement('button');
-    button.className = 'btn-parity px-3 py-2 bg-gray-800 text-white rounded';
+    button.className = 'btn-parity px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500';
     button.dataset.value = i;
     button.textContent = i;
     if (i === 0) button.classList.add('active', 'bg-red-600');
+
+    // Tooltip
+    button.setAttribute('data-tooltip', `Select ${i} parity drives`);
 
     parityButtonsDiv.appendChild(button);
   }
@@ -182,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const sizeInput = document.createElement('input');
       sizeInput.type = 'number';
       sizeInput.min = '0';
-      sizeInput.className = 'parity-size w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white';
+      sizeInput.className = 'parity-size w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500';
       sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
 
@@ -194,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       const unitSelect = document.createElement('select');
-      unitSelect.className = 'parity-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white';
+      unitSelect.className = 'parity-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500';
       const tbOption = document.createElement('option');
       tbOption.value = 'TB';
       tbOption.textContent = 'TB';
@@ -303,5 +310,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
   closeModalBtn.addEventListener('click', function () {
     updateAllDrivesModal.classList.add('hidden');
+  });
+
+  // Tooltip Functionality
+  document.addEventListener('mouseover', function (e) {
+    if (e.target.dataset.tooltip) {
+      const tooltip = document.getElementById('tooltip');
+      tooltip.textContent = e.target.dataset.tooltip;
+      tooltip.style.left = e.pageX + 'px';
+      tooltip.style.top = e.pageY + 20 + 'px';
+      tooltip.classList.remove('hidden');
+    }
+  });
+
+  document.addEventListener('mouseout', function (e) {
+    if (e.target.dataset.tooltip) {
+      const tooltip = document.getElementById('tooltip');
+      tooltip.classList.add('hidden');
+    }
+  });
+
+  // Accessibility: Keyboard Navigation for Modals
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !updateAllDrivesModal.classList.contains('hidden')) {
+      updateAllDrivesModal.classList.add('hidden');
+    }
   });
 });
