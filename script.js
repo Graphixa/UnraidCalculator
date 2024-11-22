@@ -306,9 +306,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       resultsDiv.innerHTML = `
         <div class="bg-gray-800 p-4 rounded">
-          <p class="mb-2">Usable Storage: <span class="text-green-500">${usableStorage} TB</span></p>
-          <p class="mb-2">Drive Fault Tolerance: <span class="text-yellow-500">${faultTolerance} drive(s)</span></p>
-          <p>Total Drives (including parity): <span class="text-blue-500">${totalDrives}</span></p>
+          <p class="mb-2">Usable Storage: <span class="text-green-300">${usableStorage} TB</span></p>
+          <p class="mb-2">Drive Fault Tolerance: <span class="text-red-300">${faultTolerance} drive(s)</span></p>
+          <p>Total Drives (including parity): <span class="text-blue-300">${totalDrives} Drive(s)</span></p>
         </div>
       `;
     }
