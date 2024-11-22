@@ -1,8 +1,5 @@
 /* styles.css */
 
-/* Import Bootstrap Overrides */
-@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
-
 /* Apply the "Inter" font */
 body {
   font-family: 'Inter', sans-serif;
@@ -17,7 +14,6 @@ body {
 
 /* Headings */
 h1 {
-  color: #eb462a;
   margin-bottom: 30px;
 }
 
