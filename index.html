@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>UNRAID Calculator</title>
+  <title>Unraid Drive Calculator</title>
   <!-- Include Tailwind CSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <!-- Include Google Font "Inter" -->
@@ -34,6 +34,11 @@
     ::-webkit-scrollbar-thumb {
       background: #555;
     }
+    /* Adjustments for H2 headings */
+    h2 {
+      font-size: 1.5rem; /* Increased font size */
+      margin-bottom: 1rem; /* Added bottom margin */
+    }
   </style>
 </head>
 <body>
@@ -42,7 +47,7 @@
     <div class="container mx-auto flex items-center justify-between px-4">
       <div class="flex items-center">
         <img src="unraid-logo.png" alt="Unraid Logo" class="h-8 mr-3">
-        <h1 class="text-2xl font-bold">UNRAID Calculator</h1>
+        <h1 class="text-2xl font-bold">Drive Calculator</h1>
       </div>
       <a href="https://github.com/graphixa/UnraidCalculator" class="text-white hover:text-red-500">
         Made with ❤️ by @graphixa
@@ -55,26 +60,35 @@
     <!-- Data Drives Section -->
     <section>
       <h2 class="text-xl font-semibold mb-4">Number of Data Drives</h2>
-      <div class="flex flex-wrap items-center justify-between mb-6">
-        <div class="flex flex-wrap space-x-2 mb-4">
+      <div class="mb-6">
+        <div class="flex flex-wrap items-center space-x-2 mb-4">
           <!-- Drive buttons will be generated here -->
           <div id="driveButtons" class="flex flex-wrap space-x-2">
             <!-- Buttons will be inserted here -->
           </div>
-          <!-- Custom Number Input -->
-          <div id="customDriveInput" class="mt-2" style="display: none;">
-            <input
-              type="number"
-              id="numDrives"
-              min="11"
-              value="11"
-              class="border border-gray-600 bg-gray-800 text-white px-3 py-2 rounded"
-              placeholder="Enter number of drives"
-            />
+          <!-- Custom Number Button -->
+          <div class="flex items-center space-x-2 mt-2">
+            <button id="customButton" class="btn-drive custom-number px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+              Custom No.
+            </button>
+            <!-- Custom Number Input -->
+            <div id="customDriveInput" style="display: none;">
+              <input
+                type="number"
+                id="numDrives"
+                min="11"
+                max="100"
+                value="11"
+                class="border border-gray-600 bg-gray-800 text-white px-3 py-2 rounded w-32"
+                placeholder="Max 100"
+              />
+            </div>
           </div>
         </div>
         <!-- Update All Drive Sizes Button -->
-        <button id="updateAllDrivesBtn" class="btn-accent px-4 py-2 rounded">Update All Drive Sizes</button>
+        <div class="mt-4">
+          <button id="updateAllDrivesBtn" class="btn-accent px-4 py-2 rounded">Update All Drive Sizes</button>
+        </div>
       </div>
 
       <!-- Drive Sizes Inputs -->
