@@ -1,12 +1,19 @@
 // script.js
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Generate Data Drive Buttons
+  // Elements
   const driveButtonsDiv = document.getElementById('driveButtons');
   const customDriveInputDiv = document.getElementById('customDriveInput');
-  let numDrives = 1; // Default number of drives
+  const numDrivesInput = document.getElementById('numDrives');
+  const driveSizesDiv = document.getElementById('driveSizes');
+  const parityButtons = document.querySelectorAll('#parityButtons input');
+  const parityDrivesDiv = document.getElementById('parityDrives');
+  const resultsDiv = document.getElementById('results');
 
-  // Create buttons from 1 to 12
+  let numDrives = 1; // Default number of data drives
+  let numParityDrives = 0; // Default number of parity drives
+
+  // Generate Data Drive Buttons
   for (let i = 1; i <= 12; i++) {
     const label = document.createElement('label');
     label.className = 'btn btn-secondary';
@@ -45,33 +52,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectedValue = event.target.dataset.value;
     if (selectedValue === 'custom') {
       customDriveInputDiv.style.display = 'block';
-      numDrives = parseInt(document.getElementById('numDrives').value) || 13;
+      numDrives = parseInt(numDrivesInput.value) || 13;
+      numDrivesInput.focus();
     } else {
       customDriveInputDiv.style.display = 'none';
       numDrives = parseInt(selectedValue);
     }
     updateDriveInputs();
-    calculateTotalStorage();
   });
 
   // Handle Custom Number of Drives Input
-  document
-    .getElementById('numDrives')
-    .addEventListener('input', function () {
-      numDrives = parseInt(this.value) || 13;
+  numDrivesInput.addEventListener('input', function () {
+    const value = parseInt(this.value);
+    if (value >= 13) {
+      numDrives = value;
       updateDriveInputs();
-      calculateTotalStorage();
-    });
+    }
+  });
 
-  // Rest of the code...
+  numDrivesInput.addEventListener('blur', function () {
+    const value = parseInt(this.value);
+    if (isNaN(value) || value < 13) {
+      this.value = 13;
+      numDrives = 13;
+      updateDriveInputs();
+    }
+  });
 
-  const driveSizesDiv = document.getElementById('driveSizes');
-  const parityButtons = document.querySelectorAll('#parityButtons input');
-  const parityDrivesDiv = document.getElementById('parityDrives');
-  const resultsDiv = document.getElementById('results');
-
-  let numParityDrives = 0; // Default parity drives
-
+  // Function to update drive inputs
   function updateDriveInputs() {
     driveSizesDiv.innerHTML = '';
     for (let i = 1; i <= numDrives; i++) {
@@ -109,8 +117,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
       driveSizesDiv.appendChild(formGroup);
     }
+    calculateTotalStorage();
   }
 
+  // Handle Parity Drive Selection
+  parityButtons.forEach((button) => {
+    button.addEventListener('change', () => {
+      numParityDrives = parseInt(button.dataset.value);
+      updateParityDrives();
+    });
+  });
+
+  // Function to update parity drive inputs
   function updateParityDrives() {
     parityDrivesDiv.innerHTML = '';
     for (let i = 1; i <= numParityDrives; i++) {
@@ -151,59 +169,5 @@ document.addEventListener('DOMContentLoaded', function () {
     calculateTotalStorage();
   }
 
+  // Function to calculate total storage
   function calculateTotalStorage() {
-    const driveSizes = document.querySelectorAll('.drive-size');
-    const driveUnits = document.querySelectorAll('.drive-unit');
-    const paritySizes = document.querySelectorAll('.parity-size');
-    const parityUnits = document.querySelectorAll('.parity-unit');
-
-    let totalStorage = 0;
-    let largestDriveSize = 0;
-    let error = '';
-
-    driveSizes.forEach((input, index) => {
-      let size = parseFloat(input.value) || 0;
-      const unit = driveUnits[index].value;
-
-      if (unit === 'GB') size = size / 1024; // Convert GB to TB
-
-      totalStorage += size;
-      if (size > largestDriveSize) largestDriveSize = size;
-    });
-
-    paritySizes.forEach((input, index) => {
-      let size = parseFloat(input.value) || 0;
-      const unit = parityUnits[index].value;
-
-      if (unit === 'GB') size = size / 1024; // Convert GB to TB
-
-      // Check parity size against largest drive
-      if (size < largestDriveSize) {
-        error = `Parity Drive ${index + 1} must be at least ${largestDriveSize.toFixed(
-          2
-        )} TB`;
-      }
-    });
-
-    if (error) {
-      resultsDiv.innerHTML = `<div id="error">${error}</div>`;
-    } else {
-      const usableStorage = totalStorage - largestDriveSize * numParityDrives;
-      resultsDiv.innerHTML = `<div>Total Usable Storage: ${usableStorage.toFixed(
-        2
-      )} TB</div>`;
-    }
-  }
-
-  // Handle Parity Drive Selection
-  parityButtons.forEach((button) => {
-    button.addEventListener('change', () => {
-      numParityDrives = parseInt(button.dataset.value);
-      updateParityDrives();
-    });
-  });
-
-  // Initialize inputs
-  updateDriveInputs();
-  updateParityDrives();
-});
