@@ -3,45 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title>UNRAID Calculator</title>
-  <style>
-    /* Basic styling for the form */
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    .drive-input { margin-bottom: 10px; }
-    .drive-input label { margin-right: 10px; }
-    .drive-input input { width: 80px; margin-right: 5px; }
-    .drive-input select { margin-right: 10px; }
-    #results { margin-top: 20px; font-weight: bold; }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="container">
+    <h1>UNRAID Calculator</h1>
 
-  <h1>UNRAID Calculator</h1>
+    <div class="form-section">
+      <label for="numDrives">Number of Data Drives:</label>
+      <input type="number" id="numDrives" min="1" value="1">
+    </div>
 
-  <div>
-    <label for="numDrives">Number of Data Drives:</label>
-    <input type="number" id="numDrives" min="1" value="1">
-    <button id="updateDrives">Update Drives</button>
+    <div id="driveSizes">
+      <!-- Drive size inputs will be appended here -->
+    </div>
+
+    <div class="form-section">
+      <h3>Parity Drives</h3>
+      <div id="parityButtons">
+        <button data-value="0" class="parity-btn active">0</button>
+        <button data-value="1" class="parity-btn">1</button>
+        <button data-value="2" class="parity-btn">2</button>
+      </div>
+      <div id="parityDrives">
+        <!-- Parity drive inputs will be appended here -->
+      </div>
+    </div>
+
+    <div id="results"></div>
   </div>
-
-  <div id="driveSizes">
-    <!-- Drive size inputs will be appended here -->
-  </div>
-
-  <div>
-    <h3>Parity Drives</h3>
-    <label for="numParity">Number of Parity Drives:</label>
-    <input type="number" id="numParity" min="0" value="1">
-    <label for="paritySize">Parity Drive Size:</label>
-    <input type="number" id="paritySize" min="0" value="4">
-    <select id="parityUnit">
-      <option value="TB">TB</option>
-      <option value="GB">GB</option>
-    </select>
-  </div>
-
-  <button id="calculate">Calculate Total Storage</button>
-
-  <div id="results"></div>
 
   <script src="script.js"></script>
 </body>
