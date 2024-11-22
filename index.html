@@ -23,8 +23,12 @@
     <!-- Data Drives Section -->
     <h3 class="section-header">Number of Data Drives</h3>
     <div class="form-group">
-      <div id="driveButtons" class="drive-buttons mt-2">
-        <!-- Drive buttons will be generated here -->
+      <div class="drive-controls d-flex justify-content-between align-items-center">
+        <div id="driveButtons" class="drive-buttons">
+          <!-- Drive buttons will be generated here -->
+        </div>
+        <!-- Update All Drive Sizes Button -->
+        <button id="updateAllDrivesBtn" class="btn btn-accent">Update All Drive Sizes</button>
       </div>
       <div id="customDriveInput" class="mt-2" style="display: none;">
         <input
@@ -38,9 +42,6 @@
       </div>
     </div>
 
-    <!-- Update All Drive Sizes Button -->
-    <button id="updateAllDrivesBtn" class="btn btn-primary mb-3">Update All Drive Sizes</button>
-
     <!-- Drive Sizes Inputs -->
     <div id="driveSizes">
       <!-- Drive size inputs will be appended here -->
@@ -49,7 +50,7 @@
     <!-- Parity Drives Section -->
     <h3 class="section-header">Number of Parity Drives</h3>
     <div class="form-group">
-      <div id="parityButtons" class="parity-buttons mt-2">
+      <div id="parityButtons" class="parity-buttons">
         <!-- Parity buttons will be generated here -->
       </div>
     </div>
@@ -82,7 +83,7 @@
           </select>
         </div>
         <div class="modal-footer">
-          <button type="button" id="applyNewSizeBtn" class="btn btn-primary">Apply</button>
+          <button type="button" id="applyNewSizeBtn" class="btn btn-accent">Apply</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         </div>
       </div>
