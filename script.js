@@ -300,8 +300,17 @@ document.addEventListener('DOMContentLoaded', function () {
     if (errorMessages.length > 0) {
       resultsDiv.innerHTML = `<div class="text-red-500">${errorMessages.join('<br>')}</div>`;
     } else {
-      const usableStorage = totalStorage;
-      resultsDiv.innerHTML = `<div>${usableStorage.toFixed(2)} TB(s) usable | with ${numParityDrives} parity drive(s)</div>`;
+      const totalDrives = numDrives + numParityDrives;
+      const usableStorage = totalStorage.toFixed(2);
+      const faultTolerance = numParityDrives;
+
+      resultsDiv.innerHTML = `
+        <div class="bg-gray-800 p-4 rounded">
+          <p class="mb-2">Usable Storage: <span class="text-green-500">${usableStorage} TB</span></p>
+          <p class="mb-2">Drive Fault Tolerance: <span class="text-yellow-500">${faultTolerance} drive(s)</span></p>
+          <p>Total Drives (including parity): <span class="text-blue-500">${totalDrives}</span></p>
+        </div>
+      `;
     }
   }
 
