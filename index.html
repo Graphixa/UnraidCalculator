@@ -39,6 +39,26 @@
       font-size: 1.5rem; /* Increased font size */
       margin-bottom: 1rem; /* Added bottom margin */
     }
+    /* Responsive adjustments for buttons */
+    @media (max-width: 400px) {
+      .drive-buttons, .parity-buttons {
+        flex-wrap: wrap;
+      }
+      .drive-buttons > button, .parity-buttons > button {
+        margin-bottom: 8px;
+      }
+      .drive-controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .drive-controls > div, .drive-controls > button {
+        margin-bottom: 8px;
+      }
+    }
+    /* Additional spacing */
+    .section-spacing {
+      margin-bottom: 2rem;
+    }
   </style>
 </head>
 <body>
@@ -61,25 +81,27 @@
     <section>
       <h2 class="text-xl font-semibold mb-4">Number of Data Drives</h2>
       <div class="mb-6">
-        <div class="flex flex-wrap items-center space-x-2 mb-4">
+        <div class="drive-controls flex flex-wrap items-center space-x-2 mb-4">
           <!-- Drive buttons will be generated here -->
-          <div id="driveButtons" class="flex flex-wrap space-x-2">
+          <div id="driveButtons" class="drive-buttons flex flex-wrap space-x-2">
             <!-- Buttons will be inserted here -->
           </div>
           <!-- Custom Number Button and Input -->
-          <button id="customButton" class="btn-drive custom-number px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500">
-            Custom No.
-          </button>
-          <div id="customDriveInput" style="display: none;">
-            <input
-              type="number"
-              id="numDrives"
-              min="11"
-              max="100"
-              value="11"
-              class="border border-gray-600 bg-gray-800 text-white px-3 py-2 rounded w-32"
-              placeholder="Max 100"
-            />
+          <div class="flex items-center space-x-2 mt-2">
+            <button id="customButton" class="btn-drive custom-number px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+              Custom No.
+            </button>
+            <div id="customDriveInput" style="display: none;">
+              <input
+                type="number"
+                id="numDrives"
+                min="11"
+                max="100"
+                value="11"
+                class="border border-gray-600 bg-gray-800 text-white px-3 py-2 rounded w-32"
+                placeholder="Max 100"
+              />
+            </div>
           </div>
         </div>
         <!-- Update All Drive Sizes Button -->
@@ -95,11 +117,11 @@
     </section>
 
     <!-- Parity Drives Section -->
-    <section>
+    <section class="section-spacing">
       <h2 class="text-xl font-semibold mb-4">Number of Parity Drives</h2>
       <div class="flex flex-wrap space-x-2 mb-6">
         <!-- Parity buttons will be generated here -->
-        <div id="parityButtons" class="flex flex-wrap space-x-2">
+        <div id="parityButtons" class="parity-buttons flex flex-wrap space-x-2">
           <!-- Buttons will be inserted here -->
         </div>
       </div>
