@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const customDriveInputDiv = document.getElementById('customDriveInput');
   const numDrivesInput = document.getElementById('numDrives');
   const driveSizesDiv = document.getElementById('driveSizes');
-  const parityButtons = document.querySelectorAll('#parityButtons input');
+  const parityButtonsDiv = document.getElementById('parityButtons');
   const parityDrivesDiv = document.getElementById('parityDrives');
   const resultsDiv = document.getElementById('results');
 
@@ -15,58 +15,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Generate Data Drive Buttons
   for (let i = 1; i <= 12; i++) {
-    const label = document.createElement('label');
-    label.className = 'btn btn-secondary';
-    if (i === 1) label.classList.add('active');
+    const button = document.createElement('button');
+    button.className = 'btn btn-drive';
+    button.dataset.value = i;
+    button.textContent = i;
+    if (i === 1) button.classList.add('active');
 
-    const input = document.createElement('input');
-    input.type = 'radio';
-    input.name = 'driveOptions';
-    input.autocomplete = 'off';
-    input.dataset.value = i;
-    if (i === 1) input.checked = true;
-
-    label.appendChild(input);
-    label.appendChild(document.createTextNode(` ${i}`));
-
-    driveButtonsDiv.appendChild(label);
+    driveButtonsDiv.appendChild(button);
   }
 
-  // Create the [ >12 ] button
-  const customLabel = document.createElement('label');
-  customLabel.className = 'btn btn-secondary';
+  // Create the [ Custom No. ] button
+  const customButton = document.createElement('button');
+  customButton.className = 'btn btn-drive';
+  customButton.dataset.value = 'custom';
+  customButton.textContent = 'Custom No.';
+  driveButtonsDiv.appendChild(customButton);
 
-  const customInput = document.createElement('input');
-  customInput.type = 'radio';
-  customInput.name = 'driveOptions';
-  customInput.autocomplete = 'off';
-  customInput.dataset.value = 'custom';
+  // Handle Data Drive Selection
+  driveButtonsDiv.addEventListener('click', function (event) {
+    if (event.target.matches('.btn-drive')) {
+      const selectedValue = event.target.dataset.value;
+      document.querySelectorAll('.btn-drive').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
 
-  customLabel.appendChild(customInput);
-  customLabel.appendChild(document.createTextNode(' >12'));
-
-  driveButtonsDiv.appendChild(customLabel);
-
-  // Function to handle Data Drive Selection
-  function handleDriveSelection(event) {
-    const selectedInput = event.target.querySelector('input[type="radio"]');
-    if (!selectedInput) return;
-    const selectedValue = selectedInput.dataset.value;
-    if (selectedValue === 'custom') {
-      customDriveInputDiv.style.display = 'block';
-      numDrives = parseInt(numDrivesInput.value) || 13;
-      numDrivesInput.focus();
-    } else {
-      customDriveInputDiv.style.display = 'none';
-      numDrives = parseInt(selectedValue);
+      if (selectedValue === 'custom') {
+        customDriveInputDiv.style.display = 'block';
+        numDrives = parseInt(numDrivesInput.value) || 13;
+        numDrivesInput.focus();
+      } else {
+        customDriveInputDiv.style.display = 'none';
+        numDrives = parseInt(selectedValue);
+      }
+      updateDriveInputs();
     }
-    updateDriveInputs();
-  }
-
-  // Attach click event listeners to drive buttons
-  const driveButtonLabels = driveButtonsDiv.querySelectorAll('label.btn');
-  driveButtonLabels.forEach((label) => {
-    label.addEventListener('click', handleDriveSelection);
   });
 
   // Handle Custom Number of Drives Input
@@ -129,11 +110,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Handle Parity Drive Selection
-  parityButtons.forEach((button) => {
-    button.addEventListener('change', () => {
-      numParityDrives = parseInt(button.dataset.value);
+  parityButtonsDiv.addEventListener('click', function (event) {
+    if (event.target.matches('.btn-parity')) {
+      numParityDrives = parseInt(event.target.dataset.value);
+      document.querySelectorAll('.btn-parity').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
       updateParityDrives();
-    });
+    }
   });
 
   // Function to update parity drive inputs
@@ -216,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
       resultsDiv.innerHTML = `<div id="error">${errorMessages.join('<br>')}</div>`;
     } else {
       const usableStorage = totalStorage - largestDriveSize * numParityDrives;
-      resultsDiv.innerHTML = `<div>Total Usable Storage: ${usableStorage.toFixed(2)} TB</div>`;
+      resultsDiv.innerHTML = `<div>${usableStorage.toFixed(2)} TB(s) usable | with ${numParityDrives} parity drive(s)</div>`;
     }
   }
 
