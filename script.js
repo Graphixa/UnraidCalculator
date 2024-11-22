@@ -27,10 +27,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // Generate Data Drive Buttons
   for (let i = 1; i <= 10; i++) {
     const button = document.createElement('button');
-    button.className = 'btn-drive w-full sm:w-auto px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500';
+    button.className = 'btn-drive w-full sm:w-auto px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300';
     button.dataset.value = i;
     button.textContent = i;
-    if (i === 1) button.classList.add('active', 'bg-red-600');
+    if (i === 1) button.classList.add('active', 'bg-orange-700');
 
     // Tooltip
     button.setAttribute('data-tooltip', `Select ${i} data drives`);
@@ -42,12 +42,12 @@ document.addEventListener('DOMContentLoaded', function () {
   driveButtonsDiv.addEventListener('click', function (event) {
     if (event.target.matches('.btn-drive')) {
       const selectedValue = event.target.dataset.value;
-      document.querySelectorAll('.btn-drive').forEach(btn => btn.classList.remove('active', 'bg-red-600'));
-      event.target.classList.add('active', 'bg-red-600');
+      document.querySelectorAll('.btn-drive').forEach(btn => btn.classList.remove('active', 'bg-orange-700'));
+      event.target.classList.add('active', 'bg-orange-700');
 
       customDriveInputDiv.style.display = 'none';
       numDrivesInput.value = '';
-      numDrivesInput.classList.remove('border-red-500');
+      numDrivesInput.classList.remove('border-orange-300');
 
       numDrives = parseInt(selectedValue);
       updateDriveInputs();
@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Handle Custom Number Button
   customButton.addEventListener('click', function () {
-    document.querySelectorAll('.btn-drive').forEach(btn => btn.classList.remove('active', 'bg-red-600'));
-    customButton.classList.add('active', 'bg-red-600');
+    document.querySelectorAll('.btn-drive').forEach(btn => btn.classList.remove('active', 'bg-orange-700'));
+    customButton.classList.add('active', 'bg-orange-700');
     customDriveInputDiv.style.display = 'block';
     numDrivesInput.focus();
     numDrives = parseInt(numDrivesInput.value) || 11;
@@ -74,9 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (value >= 11 && value <= 100) {
       numDrives = value;
       updateDriveInputs();
-      this.classList.remove('border-red-500');
+      this.classList.remove('border-orange-300');
     } else {
-      this.classList.add('border-red-500');
+      this.classList.add('border-orange-300');
     }
   });
 
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
       this.value = 11;
       numDrives = 11;
       updateDriveInputs();
-      this.classList.remove('border-red-500');
+      this.classList.remove('border-orange-300');
     }
   });
 
@@ -106,25 +106,25 @@ document.addEventListener('DOMContentLoaded', function () {
   function updateDriveInputs() {
     // Update driveValues with current inputs
     updateDriveValues();
-
+  
     driveSizesDiv.innerHTML = '';
     for (let i = 1; i <= numDrives; i++) {
       const formGroup = document.createElement('div');
-      formGroup.className = 'drive-input-group flex items-center mb-2';
-
+      formGroup.className = 'drive-input-group flex items-center gap-1 mb-2'; // Reduced gap between items
+  
       const labelDiv = document.createElement('div');
-      labelDiv.className = 'drive-label w-24 mr-2';
+      labelDiv.className = 'drive-label w-20';
       labelDiv.textContent = `Drive ${i}:`;
-
+  
       const sizeInput = document.createElement('input');
       sizeInput.type = 'number';
       sizeInput.min = '0';
-      sizeInput.className = 'drive-size w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500';
+      sizeInput.className = 'drive-size w-20 px-2 py-1 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-orange-300';
       sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
-
+  
       const unitSelect = document.createElement('select');
-      unitSelect.className = 'drive-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500';
+      unitSelect.className = 'drive-unit-select w-16 px-2 py-1 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-orange-300';
       const tbOption = document.createElement('option');
       tbOption.value = 'TB';
       tbOption.textContent = 'TB';
@@ -134,33 +134,34 @@ document.addEventListener('DOMContentLoaded', function () {
       unitSelect.appendChild(tbOption);
       unitSelect.appendChild(gbOption);
       unitSelect.addEventListener('change', calculateTotalStorage);
-
+  
       // Set existing value if available
       if (driveValues[i - 1]) {
         sizeInput.value = driveValues[i - 1].size;
         unitSelect.value = driveValues[i - 1].unit;
       } else {
-        sizeInput.value = '4';
+        sizeInput.value = '8';
         unitSelect.value = 'TB';
-        driveValues[i - 1] = { size: '4', unit: 'TB' };
+        driveValues[i - 1] = { size: '8', unit: 'TB' };
       }
-
+  
       formGroup.appendChild(labelDiv);
       formGroup.appendChild(sizeInput);
       formGroup.appendChild(unitSelect);
-
+  
       driveSizesDiv.appendChild(formGroup);
     }
     calculateTotalStorage();
   }
+  
 
   // Generate Parity Drive Buttons
   for (let i = 0; i <= 2; i++) {
     const button = document.createElement('button');
-    button.className = 'btn-parity w-full sm:w-auto px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500';
+    button.className = 'btn-parity w-full sm:w-auto px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300';
     button.dataset.value = i;
     button.textContent = i;
-    if (i === 0) button.classList.add('active', 'bg-red-600');
+    if (i === 0) button.classList.add('active', 'bg-orange-700');
 
     // Tooltip
     button.setAttribute('data-tooltip', `Select ${i} parity drives`);
@@ -172,8 +173,8 @@ document.addEventListener('DOMContentLoaded', function () {
   parityButtonsDiv.addEventListener('click', function (event) {
     if (event.target.matches('.btn-parity')) {
       numParityDrives = parseInt(event.target.dataset.value);
-      document.querySelectorAll('.btn-parity').forEach(btn => btn.classList.remove('active', 'bg-red-600'));
-      event.target.classList.add('active', 'bg-red-600');
+      document.querySelectorAll('.btn-parity').forEach(btn => btn.classList.remove('active', 'bg-orange-700'));
+      event.target.classList.add('active', 'bg-orange-700');
       updateParityDrives();
     }
   });
@@ -227,12 +228,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const sizeInput = document.createElement('input');
       sizeInput.type = 'number';
       sizeInput.min = '0';
-      sizeInput.className = 'parity-size w-24 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500';
+      sizeInput.className = 'parity-size w-24 px-2 py-1 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-orange-300';
       sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
 
       const unitSelect = document.createElement('select');
-      unitSelect.className = 'parity-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500';
+      unitSelect.className = 'parity-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-orange-300';
       const tbOption = document.createElement('option');
       tbOption.value = 'TB';
       tbOption.textContent = 'TB';
@@ -268,27 +269,27 @@ document.addEventListener('DOMContentLoaded', function () {
     const driveUnits = document.querySelectorAll('.drive-unit-select');
     const paritySizes = document.querySelectorAll('.parity-size');
     const parityUnits = document.querySelectorAll('.parity-unit-select');
-
+  
     let totalStorage = 0;
     let largestDriveSize = 0;
     let errorMessages = [];
-
+  
     driveSizes.forEach((input, index) => {
       let size = parseFloat(input.value) || 0;
       const unit = driveUnits[index].value;
-
+  
       if (unit === 'GB') size = size / 1024; // Convert GB to TB
-
+  
       totalStorage += size;
       if (size > largestDriveSize) largestDriveSize = size;
     });
-
+  
     paritySizes.forEach((input, index) => {
       let size = parseFloat(input.value) || 0;
       const unit = parityUnits[index].value;
-
+  
       if (unit === 'GB') size = size / 1024; // Convert GB to TB
-
+  
       // Check parity size against largest drive
       if (size < largestDriveSize) {
         errorMessages.push(
@@ -296,23 +297,33 @@ document.addEventListener('DOMContentLoaded', function () {
         );
       }
     });
-
+  
     if (errorMessages.length > 0) {
-      resultsDiv.innerHTML = `<div class="text-red-500">${errorMessages.join('<br>')}</div>`;
+      resultsDiv.innerHTML = `<div class="text-red-300">${errorMessages.join('<br>')}</div>`;
     } else {
       const totalDrives = numDrives + numParityDrives;
       const usableStorage = totalStorage.toFixed(2);
       const faultTolerance = numParityDrives;
-
+  
       resultsDiv.innerHTML = `
         <div class="bg-gray-800 p-4 rounded">
-          <p class="mb-2">Usable Storage: <span class="text-green-300">${usableStorage} TB</span></p>
-          <p class="mb-2">Drive Fault Tolerance: <span class="text-red-300">${faultTolerance} drive(s)</span></p>
-          <p>Total Drives (including parity): <span class="text-blue-300">${totalDrives} Drive(s)</span></p>
+          <p class="mb-2">
+            <i class="fa-solid fa-server text-green-400 mr-2"></i>
+            Usable Storage: <span class="text-green-400">${usableStorage} TB</span>
+          </p>
+          <p class="mb-2">
+            <i class="fa fa-shield-halved text-red-400 mr-2"></i>
+            Drive Fault Tolerance: <span class="text-red-400">${faultTolerance} drive(s)</span>
+          </p>
+          <p>
+            <i class="fa-solid fa-hard-drive text-indigo-400 mr-2"></i>
+            Total Drives (including parity): <span class="text-indigo-400">${totalDrives} Drive(s)</span>
+          </p>
         </div>
       `;
     }
   }
+  
 
   // Initialize inputs
   updateDriveInputs();

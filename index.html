@@ -2,62 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Unraid Drive Calculator</title>
-  <!-- Include Tailwind CSS CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- Include Google Font "Inter" -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- Custom Styles -->
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+
+
+
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'IBM Plex Sans Condensed', sans-serif;
       background-color: #171717;
       color: #FFFFFF;
     }
-    .accent {
-      color: #ee4e28;
-    }
+
     .btn-accent {
-      background-color: #ee4e28;
+      background-color: rgb(55 48 163);
       color: #FFFFFF;
     }
     .btn-accent:hover {
-      background-color: #f08267;
+      background-color: rgb(79 70 229);
     }
-    /* Custom Scrollbar for WebKit */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #2c2c2c;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #555;
-    }
-    /* Adjustments for H2 headings */
-    h2 {
-      font-size: 3rem; /* Increased font size */
-      margin-bottom: 1rem; /* Added bottom margin */
-    }
-    /* Responsive adjustments for buttons */
-    @media (max-width: 400px) {
-      .drive-buttons, .parity-buttons {
-        flex-wrap: wrap;
-      }
-      .drive-buttons > button, .parity-buttons > button {
-        margin-bottom: 8px;
-      }
-      .drive-controls {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .drive-controls > div, .drive-controls > button {
-        margin-bottom: 8px;
-      }
-    }
-    /* Additional spacing */
-    .section-spacing {
-      margin-bottom: 2rem;
+    /* Fix for dropdown arrow color */
+    select {
+      appearance: none;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="white"><path d="M5.292 7.292a1 1 0 011.414 0L10 10.586l3.293-3.294a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>');
+      background-position: right 0.75rem center;
+      background-repeat: no-repeat;
+      background-size: 1em;
     }
   </style>
 </head>
@@ -69,7 +46,7 @@
         <img src="unraid-logo.png" alt="Unraid Logo" class="h-8 mr-3">
         <h1 class="text-2xl font-bold">Drive Calculator</h1>
       </div>
-      <a href="https://github.com/graphixa/UnraidCalculator" class="text-white hover:text-yellow-500">
+      <a href="https://github.com/graphixa/UnraidCalculator" class="text-white hover:text-amber-500">
         Made with ❤️ by @graphixa
       </a>
     </div>
@@ -79,16 +56,16 @@
   <main class="container mx-auto my-14 px-4">
     <!-- Data Drives Section -->
     <section>
-      <h2 class="text-2xl font-semibold mb-4">Number of Data Drives</h2>
+      <h2 class="text-3xl font-semibold mb-4">Number of Data Drives</h2>
       <div class="mb-6">
-        <div class="drive-controls flex flex-wrap items-center space-x-2 mb-4">
+        <div class="drive-controls flex flex-wrap items-center gap-2 mb-4">
           <!-- Drive buttons will be generated here -->
-          <div id="driveButtons" class="drive-buttons flex flex-wrap space-x-2">
+          <div id="driveButtons" class="drive-buttons flex flex-wrap gap-2">
             <!-- Buttons will be inserted here -->
           </div>
           <!-- Custom Number Button and Input -->
-          <div class="flex items-center space-x-2">
-            <button id="customButton" class="btn-drive custom-number px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+          <div class="flex items-center gap-2">
+            <button id="customButton" class="btn-drive custom-number px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring focus:ring-amber-500">
               Custom No.
             </button>
             <div id="customDriveInput" style="display: none;">
@@ -104,57 +81,47 @@
             </div>
           </div>
         </div>
-        <!-- Update All Drive Sizes Button -->
         <div class="mt-8">
           <button id="updateAllDrivesBtn" class="btn-accent px-4 py-2 rounded">Update All Drive Sizes</button>
         </div>
       </div>
 
       <!-- Drive Sizes Inputs -->
-      <div id="driveSizes" class="mb-14">
-        <!-- Drive size inputs will be appended here -->
-      </div>
+      <div id="driveSizes" class="mb-14"></div>
     </section>
 
     <!-- Parity Drives Section -->
     <section class="section-spacing">
-      <h2 class="text-2xl font-semibold mb-4">Number of Parity Drives</h2>
-      <div class="flex flex-wrap space-x-2 mb-6">
-        <!-- Parity buttons will be generated here -->
-        <div id="parityButtons" class="parity-buttons flex flex-wrap space-x-2">
-          <!-- Buttons will be inserted here -->
-        </div>
+      <h2 class="text-3xl font-semibold mb-4">Number of Parity Drives</h2>
+      <div class="flex flex-wrap gap-2 mb-6">
+        <div id="parityButtons" class="parity-buttons flex flex-wrap gap-2"></div>
       </div>
-      <!-- Parity Drives Inputs -->
-      <div id="parityDrives" class="mb-8">
-        <!-- Parity drive inputs will be appended here -->
-      </div>
+      <div id="parityDrives" class="mb-8"></div>
     </section>
 
     <!-- Results -->
     <section>
-      <h2 class="text-2xl font-semibold mb-4">Usable Storage</h2>
-      <div id="results" class="text-lg font-semibold">
-        <!-- Results will be displayed here -->
-      </div>
+      <h2 class="text-3xl font-semibold mb-4">Usable Storage</h2>
+      <div id="results" class="text-lg font-semibold"></div>
     </section>
   </main>
 
-  <!-- Feedback Form -->
-  <footer class="bg-gray-900 py-6">
-    <div class="container mx-auto px-4 text-center">
-      <p>If you have any feedback or encounter issues, please visit our <a href="https://github.com/graphixa/UnraidCalculator/issues" class="text-yellow-500 hover:text-yellow-400">GitHub Issues Page</a>.</p>
-    </div>
-  </footer>
-
-  <!-- Update All Drives Modal -->
+  <!-- Modal: Update All Drive Sizes -->
   <div id="updateAllDrivesModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
     <div class="bg-gray-800 p-6 rounded-lg">
       <h5 class="text-xl font-semibold mb-4">Update All Drive Sizes</h5>
       <label for="newDriveSize" class="block mb-2">Enter new size for all drives:</label>
-      <input type="number" id="newDriveSize" class="w-full mb-4 px-3 py-2 bg-gray-700 border border-gray-600 rounded" placeholder="Drive Size">
+      <input
+        type="number"
+        id="newDriveSize"
+        class="w-full mb-4 px-3 py-2 bg-gray-700 border border-gray-600 rounded"
+        placeholder="Drive Size"
+      />
       <label for="newDriveUnit" class="block mb-2">Select unit:</label>
-      <select id="newDriveUnit" class="w-full mb-4 px-3 py-2 bg-gray-700 border border-gray-600 rounded">
+      <select
+        id="newDriveUnit"
+        class="w-full mb-4 px-3 py-2 bg-gray-700 border border-gray-600 rounded"
+      >
         <option value="TB">TB</option>
         <option value="GB">GB</option>
       </select>
@@ -163,11 +130,6 @@
         <button id="closeModalBtn" class="px-4 py-2 rounded border border-gray-600">Cancel</button>
       </div>
     </div>
-  </div>
-
-  <!-- Tooltip Template -->
-  <div id="tooltip" class="hidden absolute bg-gray-700 text-white text-sm rounded py-1 px-2">
-    <!-- Tooltip text will be inserted here -->
   </div>
 
   <!-- Custom Script -->
