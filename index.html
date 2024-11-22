@@ -3,101 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <title>UNRAID Calculator</title>
-  <!-- Include Bootstrap CSS -->
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  />
+  <!-- Include Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <!-- Include Google Font "Inter" -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #171717;
+      color: #FFFFFF;
+    }
+    .accent {
+      color: #e4322a;
+    }
+    .btn-accent {
+      background-color: #e4322a;
+      color: #FFFFFF;
+    }
+    .btn-accent:hover {
+      background-color: #c12b22;
+    }
+    /* Custom Scrollbar for WebKit */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #2c2c2c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #555;
+    }
+  </style>
 </head>
 <body>
-  <div class="container my-5">
-    <h1 class="text-center mb-4">UNRAID Calculator</h1>
+  <div class="container mx-auto my-8 px-4">
+    <h1 class="text-center text-3xl font-bold mb-8">UNRAID Calculator</h1>
 
     <!-- Data Drives Section -->
-    <h3 class="section-header">Number of Data Drives</h3>
-    <div class="form-group">
-      <div class="drive-controls d-flex justify-content-between align-items-center">
-        <div id="driveButtons" class="drive-buttons">
-          <!-- Drive buttons will be generated here -->
+    <h3 class="text-xl font-semibold mb-4">Number of Data Drives</h3>
+    <div class="flex flex-wrap items-center justify-between mb-6">
+      <div class="flex flex-wrap space-x-2 mb-4">
+        <!-- Drive buttons will be generated here -->
+        <div id="driveButtons" class="flex flex-wrap space-x-2">
+          <!-- Buttons will be inserted here -->
         </div>
-        <!-- Update All Drive Sizes Button -->
-        <button id="updateAllDrivesBtn" class="btn btn-accent">Update All Drive Sizes</button>
+        <!-- Custom Number Input -->
+        <div id="customDriveInput" class="mt-2" style="display: none;">
+          <input
+            type="number"
+            id="numDrives"
+            min="11"
+            value="11"
+            class="border border-gray-600 bg-gray-800 text-white px-3 py-2 rounded"
+            placeholder="Enter number of drives"
+          />
+        </div>
       </div>
-      <div id="customDriveInput" class="mt-2" style="display: none;">
-        <input
-          type="number"
-          id="numDrives"
-          min="11"
-          value="11"
-          class="form-control"
-          placeholder="Enter number of drives"
-        />
-      </div>
+      <!-- Update All Drive Sizes Button -->
+      <button id="updateAllDrivesBtn" class="btn-accent px-4 py-2 rounded">Update All Drive Sizes</button>
     </div>
 
     <!-- Drive Sizes Inputs -->
-    <div id="driveSizes">
+    <div id="driveSizes" class="mb-8">
       <!-- Drive size inputs will be appended here -->
     </div>
 
     <!-- Parity Drives Section -->
-    <h3 class="section-header">Number of Parity Drives</h3>
-    <div class="form-group">
-      <div id="parityButtons" class="parity-buttons">
-        <!-- Parity buttons will be generated here -->
+    <h3 class="text-xl font-semibold mb-4">Number of Parity Drives</h3>
+    <div class="flex flex-wrap space-x-2 mb-6">
+      <!-- Parity buttons will be generated here -->
+      <div id="parityButtons" class="flex flex-wrap space-x-2">
+        <!-- Buttons will be inserted here -->
       </div>
     </div>
-    <div id="parityDrives">
+    <!-- Parity Drives Inputs -->
+    <div id="parityDrives" class="mb-8">
       <!-- Parity drive inputs will be appended here -->
     </div>
 
     <!-- Results -->
-    <h3 class="section-header">Usable Storage</h3>
-    <div id="results" class="mt-3"></div>
+    <h3 class="text-xl font-semibold mb-4">Usable Storage</h3>
+    <div id="results" class="text-lg font-semibold">
+      <!-- Results will be displayed here -->
+    </div>
   </div>
 
   <!-- Update All Drives Modal -->
-  <div class="modal fade" id="updateAllDrivesModal" tabindex="-1" aria-labelledby="updateAllDrivesModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content" style="background-color: #2c2c2c; color: #FFFFFF;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="updateAllDrivesModalLabel">Update All Drive Sizes</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #FFFFFF;">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <label for="newDriveSize">Enter new size for all drives:</label>
-          <input type="number" id="newDriveSize" class="form-control mb-2" placeholder="Drive Size">
-          <label for="newDriveUnit">Select unit:</label>
-          <select id="newDriveUnit" class="form-control">
-            <option value="TB">TB</option>
-            <option value="GB">GB</option>
-          </select>
-        </div>
-        <div class="modal-footer">
-          <button type="button" id="applyNewSizeBtn" class="btn btn-accent">Apply</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        </div>
+  <div id="updateAllDrivesModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-gray-800 p-6 rounded-lg">
+      <h5 class="text-xl font-semibold mb-4">Update All Drive Sizes</h5>
+      <label for="newDriveSize" class="block mb-2">Enter new size for all drives:</label>
+      <input type="number" id="newDriveSize" class="w-full mb-4 px-3 py-2 bg-gray-700 border border-gray-600 rounded" placeholder="Drive Size">
+      <label for="newDriveUnit" class="block mb-2">Select unit:</label>
+      <select id="newDriveUnit" class="w-full mb-4 px-3 py-2 bg-gray-700 border border-gray-600 rounded">
+        <option value="TB">TB</option>
+        <option value="GB">GB</option>
+      </select>
+      <div class="flex justify-end space-x-2">
+        <button id="applyNewSizeBtn" class="btn-accent px-4 py-2 rounded">Apply</button>
+        <button id="closeModalBtn" class="px-4 py-2 rounded border border-gray-600">Cancel</button>
       </div>
     </div>
   </div>
 
-  <!-- Include jQuery and Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-  ></script>
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-  ></script>
   <!-- Custom Script -->
   <script src="script.js"></script>
 </body>
