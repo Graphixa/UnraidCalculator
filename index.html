@@ -18,12 +18,12 @@
 </head>
 <body>
   <div class="container my-5">
-    <h1 class="text-center accent">UNRAID Calculator</h1>
+    <h1 class="text-center accent mb-4">UNRAID Calculator</h1>
 
     <!-- Data Drives Section -->
+    <h3 class="section-header">Number of Data Drives</h3>
     <div class="form-group">
-      <label class="font-weight-bold">No. of Drives:</label>
-      <div id="driveButtons" class="btn-group btn-group-toggle" data-toggle="buttons">
+      <div id="driveButtons" class="drive-buttons mt-2">
         <!-- Drive buttons will be generated here -->
       </div>
       <div id="customDriveInput" class="mt-2" style="display: none;">
@@ -44,26 +44,21 @@
     </div>
 
     <!-- Parity Drives Section -->
+    <h3 class="section-header">Number of Parity Drives</h3>
     <div class="form-group">
-      <label class="font-weight-bold">No. of Parity Drives:</label>
-      <div id="parityButtons" class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-secondary active">
-          <input type="radio" name="parityOptions" data-value="0" autocomplete="off" checked /> 0
-        </label>
-        <label class="btn btn-secondary">
-          <input type="radio" name="parityOptions" data-value="1" autocomplete="off" /> 1
-        </label>
-        <label class="btn btn-secondary">
-          <input type="radio" name="parityOptions" data-value="2" autocomplete="off" /> 2
-        </label>
+      <div id="parityButtons" class="parity-buttons mt-2">
+        <button class="btn btn-parity" data-value="0">0</button>
+        <button class="btn btn-parity" data-value="1">1</button>
+        <button class="btn btn-parity" data-value="2">2</button>
       </div>
-      <div id="parityDrives">
-        <!-- Parity drive inputs will be appended here -->
-      </div>
+    </div>
+    <div id="parityDrives">
+      <!-- Parity drive inputs will be appended here -->
     </div>
 
     <!-- Results -->
-    <div id="results" class="mt-4"></div>
+    <h3 class="section-header">Usable Storage</h3>
+    <div id="results" class="mt-3"></div>
   </div>
 
   <!-- Include jQuery and Bootstrap JS -->
