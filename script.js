@@ -90,16 +90,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Function to update drive values
+  function updateDriveValues() {
+    const sizeInputs = document.querySelectorAll('.drive-size');
+    const unitSelects = document.querySelectorAll('.drive-unit-select');
+
+    sizeInputs.forEach((input, index) => {
+      const size = input.value;
+      const unit = unitSelects[index].value;
+      driveValues[index] = { size, unit };
+    });
+  }
+
   // Function to update drive inputs
   function updateDriveInputs() {
-    // Store existing values
-    const existingInputs = document.querySelectorAll('.drive-size');
-    driveValues = [];
-    existingInputs.forEach((input, index) => {
-      const size = input.value;
-      const unit = document.querySelectorAll('.drive-unit-select')[index].value;
-      driveValues.push({ size, unit });
-    });
+    // Update driveValues with current inputs
+    updateDriveValues();
 
     driveSizesDiv.innerHTML = '';
     for (let i = 1; i <= numDrives; i++) {
@@ -117,13 +123,6 @@ document.addEventListener('DOMContentLoaded', function () {
       sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
 
-      // Set existing value if available
-      if (driveValues[i - 1]) {
-        sizeInput.value = driveValues[i - 1].size;
-      } else {
-        sizeInput.value = '4';
-      }
-
       const unitSelect = document.createElement('select');
       unitSelect.className = 'drive-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500';
       const tbOption = document.createElement('option');
@@ -136,9 +135,14 @@ document.addEventListener('DOMContentLoaded', function () {
       unitSelect.appendChild(gbOption);
       unitSelect.addEventListener('change', calculateTotalStorage);
 
-      // Set existing unit if available
+      // Set existing value if available
       if (driveValues[i - 1]) {
+        sizeInput.value = driveValues[i - 1].size;
         unitSelect.value = driveValues[i - 1].unit;
+      } else {
+        sizeInput.value = '4';
+        unitSelect.value = 'TB';
+        driveValues[i - 1] = { size: '4', unit: 'TB' };
       }
 
       formGroup.appendChild(labelDiv);
@@ -174,16 +178,42 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Function to update parity values
+  function updateParityValues() {
+    const sizeInputs = document.querySelectorAll('.parity-size');
+    const unitSelects = document.querySelectorAll('.parity-unit-select');
+
+    sizeInputs.forEach((input, index) => {
+      const size = input.value;
+      const unit = unitSelects[index].value;
+      parityValues[index] = { size, unit };
+    });
+  }
+
+  // Function to get largest data drive size
+  function getLargestDriveSize() {
+    let largestSize = 0;
+    const driveSizes = document.querySelectorAll('.drive-size');
+    const driveUnits = document.querySelectorAll('.drive-unit-select');
+
+    driveSizes.forEach((input, index) => {
+      let size = parseFloat(input.value) || 0;
+      const unit = driveUnits[index].value;
+
+      if (unit === 'GB') size = size / 1024; // Convert GB to TB
+
+      if (size > largestSize) largestSize = size;
+    });
+
+    return largestSize;
+  }
+
   // Function to update parity drive inputs
   function updateParityDrives() {
-    // Store existing values
-    const existingInputs = document.querySelectorAll('.parity-size');
-    parityValues = [];
-    existingInputs.forEach((input, index) => {
-      const size = input.value;
-      const unit = document.querySelectorAll('.parity-unit-select')[index].value;
-      parityValues.push({ size, unit });
-    });
+    // Update parityValues with current inputs
+    updateParityValues();
+
+    const largestDriveSize = getLargestDriveSize() || 4;
 
     parityDrivesDiv.innerHTML = '';
     for (let i = 1; i <= numParityDrives; i++) {
@@ -201,13 +231,6 @@ document.addEventListener('DOMContentLoaded', function () {
       sizeInput.placeholder = `Size`;
       sizeInput.addEventListener('input', calculateTotalStorage);
 
-      // Set existing value if available
-      if (parityValues[i - 1]) {
-        sizeInput.value = parityValues[i - 1].size;
-      } else {
-        sizeInput.value = '4';
-      }
-
       const unitSelect = document.createElement('select');
       unitSelect.className = 'parity-unit-select w-20 ml-2 px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-red-500';
       const tbOption = document.createElement('option');
@@ -220,9 +243,14 @@ document.addEventListener('DOMContentLoaded', function () {
       unitSelect.appendChild(gbOption);
       unitSelect.addEventListener('change', calculateTotalStorage);
 
-      // Set existing unit if available
+      // Set existing value if available
       if (parityValues[i - 1]) {
+        sizeInput.value = parityValues[i - 1].size;
         unitSelect.value = parityValues[i - 1].unit;
+      } else {
+        sizeInput.value = largestDriveSize;
+        unitSelect.value = 'TB';
+        parityValues[i - 1] = { size: sizeInput.value, unit: 'TB' };
       }
 
       formGroup.appendChild(labelDiv);
@@ -272,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (errorMessages.length > 0) {
       resultsDiv.innerHTML = `<div class="text-red-500">${errorMessages.join('<br>')}</div>`;
     } else {
-      const usableStorage = totalStorage - largestDriveSize * numParityDrives;
+      const usableStorage = totalStorage;
       resultsDiv.innerHTML = `<div>${usableStorage.toFixed(2)} TB(s) usable | with ${numParityDrives} parity drive(s)</div>`;
     }
   }
@@ -293,19 +321,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!isNaN(newSize) && newSize > 0) {
       // Update all drive sizes
-      document.querySelectorAll('.drive-size').forEach((input) => {
+      document.querySelectorAll('.drive-size').forEach((input, index) => {
         input.value = newSize;
+        driveValues[index].size = newSize;
       });
-      document.querySelectorAll('.drive-unit-select').forEach((select) => {
+      document.querySelectorAll('.drive-unit-select').forEach((select, index) => {
         select.value = newUnit;
+        driveValues[index].unit = newUnit;
       });
 
       // Update parity drive sizes
-      document.querySelectorAll('.parity-size').forEach((input) => {
+      document.querySelectorAll('.parity-size').forEach((input, index) => {
         input.value = newSize;
+        parityValues[index].size = newSize;
       });
-      document.querySelectorAll('.parity-unit-select').forEach((select) => {
+      document.querySelectorAll('.parity-unit-select').forEach((select, index) => {
         select.value = newUnit;
+        parityValues[index].unit = newUnit;
       });
 
       calculateTotalStorage();
