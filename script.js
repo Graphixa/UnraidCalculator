@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Elements
   const driveButtonsDiv = document.getElementById('driveButtons');
   const customDriveInputDiv = document.getElementById('customDriveInput');
+  const customButton = document.getElementById('customButton');
   const numDrivesInput = document.getElementById('numDrives');
   const driveSizesDiv = document.getElementById('driveSizes');
   const parityButtonsDiv = document.getElementById('parityButtons');
@@ -37,14 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
     driveButtonsDiv.appendChild(button);
   }
 
-  // Create the [ Custom No. ] button
-  const customButton = document.createElement('button');
-  customButton.className = 'btn-drive custom-number px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500';
-  customButton.dataset.value = 'custom';
-  customButton.textContent = 'Custom No.';
-  customButton.setAttribute('data-tooltip', 'Enter a custom number of data drives');
-  driveButtonsDiv.appendChild(customButton);
-
   // Handle Data Drive Selection
   driveButtonsDiv.addEventListener('click', function (event) {
     if (event.target.matches('.btn-drive')) {
@@ -52,33 +45,48 @@ document.addEventListener('DOMContentLoaded', function () {
       document.querySelectorAll('.btn-drive').forEach(btn => btn.classList.remove('active', 'bg-red-600'));
       event.target.classList.add('active', 'bg-red-600');
 
-      if (selectedValue === 'custom') {
-        customDriveInputDiv.style.display = 'block';
-        numDrives = parseInt(numDrivesInput.value) || 11;
-        numDrivesInput.focus();
-      } else {
-        customDriveInputDiv.style.display = 'none';
-        numDrives = parseInt(selectedValue);
-      }
+      customDriveInputDiv.style.display = 'none';
+      numDrivesInput.value = '';
+      numDrivesInput.classList.remove('border-red-500');
+
+      numDrives = parseInt(selectedValue);
       updateDriveInputs();
     }
+  });
+
+  // Handle Custom Number Button
+  customButton.addEventListener('click', function () {
+    document.querySelectorAll('.btn-drive').forEach(btn => btn.classList.remove('active', 'bg-red-600'));
+    customButton.classList.add('active', 'bg-red-600');
+    customDriveInputDiv.style.display = 'block';
+    numDrivesInput.focus();
+    numDrives = parseInt(numDrivesInput.value) || 11;
+    updateDriveInputs();
   });
 
   // Handle Custom Number of Drives Input
   numDrivesInput.addEventListener('input', function () {
-    const value = parseInt(this.value);
-    if (value >= 11) {
+    let value = parseInt(this.value);
+    if (value > 100) {
+      this.value = 100;
+      value = 100;
+    }
+    if (value >= 11 && value <= 100) {
       numDrives = value;
       updateDriveInputs();
+      this.classList.remove('border-red-500');
+    } else {
+      this.classList.add('border-red-500');
     }
   });
 
   numDrivesInput.addEventListener('blur', function () {
-    const value = parseInt(this.value);
+    let value = parseInt(this.value);
     if (isNaN(value) || value < 11) {
       this.value = 11;
       numDrives = 11;
       updateDriveInputs();
+      this.classList.remove('border-red-500');
     }
   });
 
