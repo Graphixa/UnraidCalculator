@@ -13,6 +13,18 @@ h1, .section-header {
   margin-top: 30px;
 }
 
+/* Accent Color */
+.btn-accent {
+  background-color: #e4322a;
+  border-color: #e4322a;
+  color: #FFFFFF;
+}
+
+.btn-accent:hover {
+  background-color: #c12b22;
+  border-color: #c12b22;
+}
+
 /* Buttons */
 .drive-buttons, .parity-buttons {
   display: flex;
@@ -28,13 +40,28 @@ h1, .section-header {
   margin-bottom: 10px;
   border-radius: 4px;
   width: 60px; /* Fixed width */
+  height: 40px; /* Fixed height */
   text-align: center;
+  line-height: 28px; /* For vertical centering */
 }
 
 .drive-buttons .btn.active, .parity-buttons .btn.active {
-  background-color: #e4322a; /* New accent color */
+  background-color: #e4322a; /* Accent color */
   border-color: #e4322a;
   color: #FFFFFF;
+}
+
+/* Custom Number Button */
+.drive-buttons .btn.custom-number {
+  width: auto; /* Dynamic width */
+  padding: 0 15px;
+}
+
+/* Drive Controls */
+.drive-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Inputs */
@@ -64,6 +91,7 @@ input::placeholder {
 .drive-input-group {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .drive-input {
@@ -73,6 +101,11 @@ input::placeholder {
 .drive-unit {
   width: 80px; /* Fixed width */
   margin-left: 10px;
+}
+
+/* Adjust Padding */
+.drive-label, .drive-input, .drive-unit {
+  padding: 5px;
 }
 
 /* Results */
@@ -116,5 +149,15 @@ input::placeholder {
   }
   .drive-label {
     margin-bottom: 5px;
+  }
+  .drive-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .drive-controls .btn {
+    margin-top: 10px;
+  }
+  .drive-buttons {
+    flex-wrap: wrap;
   }
 }
