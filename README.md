@@ -4,9 +4,7 @@ A quick and simple tool to help you figure out how different drive configuration
 
 ➡️ **Goto Unraid Calculator:** [https://graphixa.github.io/UnraidCalculator/](https://graphixa.github.io/UnraidCalculator/)
 
-<img src="[UnraidCalculator Demo](https://github.com/Graphixa/UnraidCalculator/blob/main/Demo.gif?raw=true)" width="300" />
-
-![alt text](https://github.com/Graphixa/UnraidCalculator/blob/main/Demo.gif?raw=true)
+![alt text](https://github.com/Graphixa/UnraidCalculator/blob/main/Example.gif?raw=true)
 
 ## Why?
 
