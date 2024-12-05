@@ -1,4 +1,4 @@
-# Unraid Drive Calculator
+# Unraid Drive Calculator 
 
 A quick and simple tool to help you figure out how different drive configurations will work with Unraid. With just a few clicks, you can see how changing the number of data and parity drives, as well as their sizes, affects your total usable storage and fault tolerance.
 
