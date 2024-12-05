@@ -2,7 +2,7 @@
 
 A quick and simple tool to help you figure out how different drive configurations will work with Unraid. With just a few clicks, you can see how changing the number of data and parity drives, as well as their sizes, affects your total usable storage and fault tolerance.
 
-**Goto Unraid Calculator Tool:** [https://graphixa.github.io/UnraidCalculator/](https://graphixa.github.io/UnraidCalculator/)
+**Use the Unraid Calculator Here:** ➡️ [https://graphixa.github.io/UnraidCalculator/](https://graphixa.github.io/UnraidCalculator/)
 
 ![alt text](https://github.com/Graphixa/UnraidCalculator/blob/main/Demo.gif?raw=true)
 
