@@ -4,6 +4,8 @@ A quick and simple tool to help you figure out how different drive configuration
 
 **Goto Unraid Calculator Tool:** [https://graphixa.github.io/UnraidCalculator/](https://graphixa.github.io/UnraidCalculator/)
 
+![alt text](https://github.com/Graphixa/UnraidCalculator/blob/main/Demo.gif?raw=true)
+
 ## Why?
 
 It’s a handy way to preview your storage setup before you commit to buying or rearranging drives.. and because every other unraid calculator is either broken or no longer available online.
@@ -40,5 +42,3 @@ Feel free to clone the repo and run locally on your computer if you want.
 ## Forking & Hosting
 
 Feel free to fork this project, make improvements, or even host your own version online. The goal is to make it as useful as possible, so if you think you can enhance it in any way, go right ahead.
-
-
