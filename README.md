@@ -2,7 +2,7 @@
 
 A quick and simple tool to help you figure out how different drive configurations will work with Unraid. With just a few clicks, you can see how changing the number of data and parity drives, as well as their sizes, affects your total usable storage and fault tolerance.
 
-➡️ **Use the Unraid Calculator Here:** [https://graphixa.github.io/UnraidCalculator/](https://graphixa.github.io/UnraidCalculator/)
+➡️ **Goto Unraid Calculator:** [https://graphixa.github.io/UnraidCalculator/](https://graphixa.github.io/UnraidCalculator/)
 
 <img src="[UnraidCalculator Demo](https://github.com/Graphixa/UnraidCalculator/blob/main/Demo.gif?raw=true)" width="300" />
 
@@ -20,11 +20,11 @@ It’s a handy way to preview your storage setup before you commit to buying or 
 
 2. **Choose Data Drive Sizes**
    - For each data drive, specify its size and unit (TB or GB).
-   - If all drives are the same size, click **"Update All Drive Sizes"** to quickly standardise their sizes and units.
+   - Click **"Update All Drive Sizes"** to quickly change all drives to a specififed size.
 
 3. **Set Parity Drives**
    - Select how many parity drives (0, 1, or 2) you’d like.
-   - For parity drives, the calculator automatically enforces parity size requirements (parity drives must be at least as large as the largest data drive).
+   - For parity drives, the calculator automatically enforces parity size requirements from unraid guidelines (parity drives must be at least as large as the largest data drive).
 
 4. **Review**
    - **Usable Storage:** Shows how much total capacity remains after accounting for parity drives.
